@@ -4,6 +4,7 @@
 
 ### Features
 
+- [#6980](https://github.com/blockscout/blockscout/pull/6980) - Add Optimism BedRock support (Txn Batches, Output Roots, Withdrawals)
 - [#6897](https://github.com/blockscout/blockscout/pull/6897) - Support basic auth in JSON RPC endpoint
 - [#6908](https://github.com/blockscout/blockscout/pull/6908) - Allow disable API rate limit
 - [#6951](https://github.com/blockscout/blockscout/pull/6951), [#6958](https://github.com/blockscout/blockscout/pull/6958) - Set poll: true for TokenInstance fetcher
@@ -27,7 +28,7 @@
 
 ### Chore
 
-- [#6954](https://github.com/blockscout/blockscout/pull/6954) - Move some compile time vars to runtime
+- [#6954](https://github.com/blockscout/blockscout/pull/6954), [#6979](https://github.com/blockscout/blockscout/pull/6979) - Move some compile time vars to runtime
 - [#6952](https://github.com/blockscout/blockscout/pull/6952) - Manage BlockReward fetcher params
 - [#6929](https://github.com/blockscout/blockscout/pull/6929) - Extend `INDEXER_MEMORY_LIMIT` env parsing
 - [#6902](https://github.com/blockscout/blockscout/pull/6902) - Increase verification timeout to 120 seconds for microservice verification
