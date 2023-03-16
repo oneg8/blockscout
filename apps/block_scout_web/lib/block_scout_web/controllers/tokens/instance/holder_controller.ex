@@ -51,17 +51,18 @@ defmodule BlockScoutWeb.Tokens.Instance.HolderController do
     end
   end
 
-  def index(conn, %{"token_id" => token_address_hash, "instance_id" => token_id}) do
+  def index(conn, %{"token_id" => token_address_hash, "instance_id" => token_id_str}) do
     options = [necessity_by_association: %{[contract_address: :smart_contract] => :optional}]
 
     with {:ok, hash} <- Chain.string_to_address_hash(token_address_hash),
          {:ok, token} <- Chain.token_from_address_hash(hash, options),
+         {token_id, ""} <- Integer.parse(token_id_str),
          {:ok, token_instance} <-
            Chain.erc721_or_erc1155_token_instance_from_token_id_and_token_address(token_id, hash) do
       render(
         conn,
         "index.html",
-        token_instance: %{instance: token_instance, token_id: Decimal.new(token_id)},
+        token_instance: %{instance: token_instance, token_id: Decimal.new(token_id_str)},
         current_path: Controller.current_full_path(conn),
         token: Market.add_price(token),
         total_token_transfers: Chain.count_token_transfers_from_token_hash_and_token_id(hash, token_id)

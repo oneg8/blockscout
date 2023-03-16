@@ -110,10 +110,11 @@ defmodule BlockScoutWeb.API.V2.TokenController do
     end
   end
 
-  def instance(conn, %{"address_hash" => address_hash_string, "token_id" => token_id} = params) do
+  def instance(conn, %{"address_hash" => address_hash_string, "token_id" => token_id_str} = params) do
     with {:format, {:ok, address_hash}} <- {:format, Chain.string_to_address_hash(address_hash_string)},
          {:ok, false} <- AccessHelpers.restricted_access?(address_hash_string, params),
          {:not_found, {:ok, token}} <- {:not_found, Chain.token_from_address_hash(address_hash, @api_true)},
+         {token_id, ""} <- Integer.parse(token_id_str),
          {:not_found, {:ok, token_instance}} <-
            {:not_found,
             Chain.erc721_or_erc1155_token_instance_from_token_id_and_token_address(token_id, address_hash, @api_true)} do
@@ -126,10 +127,11 @@ defmodule BlockScoutWeb.API.V2.TokenController do
     end
   end
 
-  def transfers_by_instance(conn, %{"address_hash" => address_hash_string, "token_id" => token_id} = params) do
+  def transfers_by_instance(conn, %{"address_hash" => address_hash_string, "token_id" => token_id_str} = params) do
     with {:format, {:ok, address_hash}} <- {:format, Chain.string_to_address_hash(address_hash_string)},
          {:ok, false} <- AccessHelpers.restricted_access?(address_hash_string, params),
          {:not_found, {:ok, _token}} <- {:not_found, Chain.token_from_address_hash(address_hash, @api_true)},
+         {token_id, ""} <- Integer.parse(token_id_str),
          {:not_found, {:ok, _token_instance}} <-
            {:not_found,
             Chain.erc721_or_erc1155_token_instance_from_token_id_and_token_address(token_id, address_hash, @api_true)} do
@@ -138,7 +140,7 @@ defmodule BlockScoutWeb.API.V2.TokenController do
       results =
         address_hash
         |> Chain.fetch_token_transfers_from_token_hash_and_token_id(token_id, Keyword.merge(paging_options, @api_true))
-        |> Chain.flat_1155_batch_token_transfers(Decimal.new(token_id))
+        |> Chain.flat_1155_batch_token_transfers(Decimal.new(token_id_str))
         |> Chain.paginate_1155_batch_token_transfers(paging_options)
 
       {token_transfers, next_page} = split_list_by_page(results)
@@ -155,10 +157,11 @@ defmodule BlockScoutWeb.API.V2.TokenController do
     end
   end
 
-  def transfers_count_by_instance(conn, %{"address_hash" => address_hash_string, "token_id" => token_id} = params) do
+  def transfers_count_by_instance(conn, %{"address_hash" => address_hash_string, "token_id" => token_id_str} = params) do
     with {:format, {:ok, address_hash}} <- {:format, Chain.string_to_address_hash(address_hash_string)},
          {:ok, false} <- AccessHelpers.restricted_access?(address_hash_string, params),
          {:not_found, {:ok, _token}} <- {:not_found, Chain.token_from_address_hash(address_hash, @api_true)},
+         {token_id, ""} <- Integer.parse(token_id_str),
          {:not_found, {:ok, _token_instance}} <-
            {:not_found,
             Chain.erc721_or_erc1155_token_instance_from_token_id_and_token_address(token_id, address_hash, @api_true)} do

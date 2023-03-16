@@ -4967,7 +4967,7 @@ defmodule Explorer.Chain do
     TokenTransfer.fetch_token_transfers_from_token_hash(token_address_hash, options)
   end
 
-  @spec fetch_token_transfers_from_token_hash_and_token_id(Hash.t(), binary(), [paging_options]) :: []
+  @spec fetch_token_transfers_from_token_hash_and_token_id(Hash.t(), integer(), [paging_options]) :: []
   def fetch_token_transfers_from_token_hash_and_token_id(token_address_hash, token_id, options \\ []) do
     TokenTransfer.fetch_token_transfers_from_token_hash_and_token_id(token_address_hash, token_id, options)
   end
@@ -4977,7 +4977,7 @@ defmodule Explorer.Chain do
     TokenTransfer.count_token_transfers_from_token_hash(token_address_hash)
   end
 
-  @spec count_token_transfers_from_token_hash_and_token_id(Hash.t(), binary(), [api?]) :: non_neg_integer()
+  @spec count_token_transfers_from_token_hash_and_token_id(Hash.t(), integer(), [api?]) :: non_neg_integer()
   def count_token_transfers_from_token_hash_and_token_id(token_address_hash, token_id, options \\ []) do
     TokenTransfer.count_token_transfers_from_token_hash_and_token_id(token_address_hash, token_id, options)
   end
@@ -5158,7 +5158,7 @@ defmodule Explorer.Chain do
     |> select_repo(options).all()
   end
 
-  @spec erc721_or_erc1155_token_instance_from_token_id_and_token_address(binary(), Hash.Address.t(), [api?]) ::
+  @spec erc721_or_erc1155_token_instance_from_token_id_and_token_address(non_neg_integer(), Hash.Address.t(), [api?]) ::
           {:ok, Instance.t()} | {:error, :not_found}
   def erc721_or_erc1155_token_instance_from_token_id_and_token_address(token_id, token_contract_address, options \\ []) do
     query =
